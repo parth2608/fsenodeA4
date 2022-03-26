@@ -33,10 +33,9 @@ const connectionString = "mongodb+srv://parth2118:Parth2608@cluster0.e4v81.mongo
 mongoose.connect(connectionString);
 
 const app = express();
-app.use(express.json());
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:3000'
+    origin: 'https://fsea4.herokuapp.com/'
 }));
 
 const SECRET = 'process.env.SECRET';
@@ -55,6 +54,7 @@ if (process.env.ENVIRONMENT === 'PRODUCTION') {
 }
 
 app.use(session(sess))
+app.use(express.json());
 
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome!'));
