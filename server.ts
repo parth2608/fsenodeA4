@@ -23,35 +23,34 @@ const cors = require("cors");
 const session = require("express-session");
 
 // build the connection string
-// const PROTOCOL = "mongodb+srv";
-// const DB_USERNAME = process.env.DB_USERNAME;
-// const DB_PASSWORD = process.env.DB_PASSWORD;
-// const HOST = "cluster0.m8jeh.mongodb.net";
-// const DB_NAME = "myFirstDatabase";
-// const DB_QUERY = "retryWrites=true&w=majority";
-const connectionString = "mongodb+srv://parth2118:Parth2608@cluster0.e4v81.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";// connect to the database
+const PROTOCOL = "mongodb+srv";
+const DB_USERNAME = process.env.DB_USERNAME;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const HOST = "cluster0.e4v81.mongodb.net";
+const DB_NAME = "myFirstDatabase";
+const DB_QUERY = "retryWrites=true&w=majority";
+const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;// connect to the database
+// const connectionString = "mongodb+srv://parth2118:Parth2608@cluster0.e4v81.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";// connect to the database
 mongoose.connect(connectionString);
 
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: 'https://fsea4.herokuapp.com'
+    origin: process.env.CORS_ORIGIN
 }));
 
-const SECRET = 'process.env.SECRET';
 let sess = {
-    secret: SECRET,
+    secret: process.env.EXPRESS_SESSION_SECRET,
     saveUninitialized: true,
     resave: true,
     cookie: {
-        secure: true,
-        sameSite: "none"
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === "production",
     }
 }
 
-if (process.env.ENVIRONMENT === 'PRODUCTION') {
+if (process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1) // trust first proxy
-    sess.cookie.secure = true // serve secure cookies
 }
 
 app.use(session(sess))
