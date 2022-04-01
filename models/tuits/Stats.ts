@@ -3,4 +3,6 @@ export default interface Stats {
     retuits: number,
     likes: number,
     dislikes: number
+    likedByMe: boolean,
+    dislikedByMe: boolean
 };

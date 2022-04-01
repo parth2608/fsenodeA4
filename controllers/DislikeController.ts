@@ -114,10 +114,7 @@ export default class DislikeController implements DislikeControllerI {
         // @ts-ignore
         const profile = req.session["profile"];
         const userId = uid === "me" && profile ? profile._id : uid;
-        if (userId === "me") {
-            res.sendStatus(404);
-            return;
-        }
+
         try {
             const userAlreadyDislikedTuit = await dislikeDao.findUserDislikesTuit(userId, tid);
             const userAlreadyLikedTuit = await likeDao.findUserLikesTuit(userId, tid);
@@ -125,17 +122,20 @@ export default class DislikeController implements DislikeControllerI {
             const howManyLikedTuit = await likeDao.countHowManyLikedTuit(tid);
             let tuit = await tuitDao.findTuitById(tid);
             if (userAlreadyDislikedTuit) {
+                tuit.stats.dislikedByMe = false;
                 await dislikeDao.userUndislikesTuit(userId, tid);
                 tuit.stats.dislikes = howManyDislikedTuit - 1;
             } else {
+                tuit.stats.dislikedByMe = true;
                 if(userAlreadyLikedTuit){
+                    tuit.stats.likedByMe = false;
                     await likeDao.userUnlikesTuit(userId, tid);
                     tuit.stats.likes = howManyLikedTuit - 1;
                 }
                 await DislikeController.dislikeDao.userDislikesTuit(userId, tid);
                 tuit.stats.dislikes = howManyDislikedTuit + 1;
             };
-            await tuitDao.updateLikes(tid, tuit.stats);
+            await tuitDao.updateDislikes(tid, tuit.stats);
             res.sendStatus(200);
         } catch (e) {
             res.sendStatus(404);
