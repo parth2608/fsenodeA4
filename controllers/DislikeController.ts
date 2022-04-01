@@ -120,8 +120,7 @@ export default class DislikeController implements DislikeControllerI {
         }
         try {
             const userAlreadyDislikedTuit = await dislikeDao.findUserDislikesTuit(userId, tid);
-            const userAlreadyLikedTuit = await dislikeDao.findUserDislikesTuit(userId,tid);
-            const findUserDislikesTuit = await dislikeDao.findUserDislikesTuit(userId, tid);
+            const userAlreadyLikedTuit = await likeDao.findUserLikesTuit(userId, tid);
             const howManyDislikedTuit = await dislikeDao.countHowManyDislikedTuit(tid);
             const howManyLikedTuit = await likeDao.countHowManyLikedTuit(tid);
             let tuit = await tuitDao.findTuitById(tid);
@@ -130,7 +129,7 @@ export default class DislikeController implements DislikeControllerI {
                 tuit.stats.dislikes = howManyDislikedTuit - 1;
             } else {
                 if(userAlreadyLikedTuit){
-                    await likeDao.userLikesTuit(userId, tid);
+                    await likeDao.userUnlikesTuit(userId, tid);
                     tuit.stats.likes = howManyLikedTuit - 1;
                 }
                 await DislikeController.dislikeDao.userDislikesTuit(userId, tid);
