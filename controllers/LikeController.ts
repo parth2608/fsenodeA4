@@ -112,7 +112,7 @@ export default class LikeController implements LikeControllerI {
         try {
             const userAlreadyDislikedTuit = await dislikeDao.findUserDislikesTuit(userId, tid);
             const userAlreadyLikedTuit = await likeDao.findUserLikesTuit(userId, tid);
-            const findUserLikesTuit = await likeDao.findUserLikesTuit(userId, tid)
+            const findUserLikesTuit = await likeDao.findUserLikesTuit(userId, tid);
             const howManyDislikedTuit = await dislikeDao.countHowManyDislikedTuit(tid);
             const howManyLikedTuit = await likeDao.countHowManyLikedTuit(tid);
             let tuit = await tuitDao.findTuitById(tid);
