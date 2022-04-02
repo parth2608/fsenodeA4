@@ -1,3 +1,7 @@
+/**
+ * @file implements the data model to represent user in the middle tier
+ */
+
 import AccountType from "./AccountType";
 import MaritalStatus from "./MaritalStatus";
 import Location from "./Location";

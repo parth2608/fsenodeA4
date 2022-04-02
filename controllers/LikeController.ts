@@ -17,8 +17,10 @@ import DislikeDao from "../daos/DislikeDao";
  *     </li>
  *     <li>POST /api/users/:uid/likes/:tid to record that a user likes a tuit
  *     </li>
+ *     <li>PUT /api/users/:uid/likes/:tid to indicate a tuit being liked by a user
+ *     </li>
  *     <li>DELETE /api/users/:uid/unlikes/:tid to record that a user
- *     no londer likes a tuit</li>
+ *     no longer likes a tuit</li>
  * </ul>
  * @property {LikeDao} likeDao Singleton DAO implementing likes CRUD operations
  * @property {LikeController} LikeController Singleton controller implementing
@@ -82,14 +84,28 @@ export default class LikeController implements LikeControllerI {
             });
     }
 
+    /**
+     * @param {Request} req Represents request from client, including the
+     * path parameters uid and tid representing the user that is liking the tuit
+     * and the tuit being liked
+     * @param {Response} res Represents response to client, including the
+     * body formatted as JSON containing the new likes that was inserted in the
+     * database
+     */
     userLikesTuit = (req: Request, res: Response) =>
             LikeController.likeDao.userLikesTuit(req.params.uid, req.params.tid)
                 .then(likes => res.json(likes));
 
+    /**
+     * @param {Request} req Represents request from client, including the
+     * path parameters uid and tid representing the user that is unliking
+     * the tuit and the tuit being unliked
+     * @param {Response} res Represents response to client, including status
+     * on whether deleting the like was successful or not
+     */
     userUnlikesTuit = (req: Request, res: Response) =>
             LikeController.likeDao.userUnlikesTuit(req.params.uid, req.params.tid)
                 .then(status => res.send(status));
-
     
     /**
      * @param {Request} req Represents request from client, including the

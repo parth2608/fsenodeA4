@@ -1,3 +1,7 @@
+/**
+ * @file the interface of the dislikeController
+ */
+
 import {Request, Response} from "express";
 
 export default interface DislikeControllerI {

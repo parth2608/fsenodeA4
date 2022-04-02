@@ -1,3 +1,7 @@
+/**
+ * @file implements the data model to represent likes in the database
+ */
+
 import mongoose, {Schema} from "mongoose";
 import Like from "../../models/likes/Like";
 
