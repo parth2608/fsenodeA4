@@ -25,13 +25,6 @@ const cors = require("cors");
 const session = require("express-session");
 
 // build the connection string
-// const PROTOCOL = "mongodb+srv";
-// const DB_USERNAME = process.env.DB_USERNAME;
-// const DB_PASSWORD = process.env.DB_PASSWORD;
-// const HOST = "cluster0.e4v81.mongodb.net";
-// const DB_NAME = "myFirstDatabase";
-// const DB_QUERY = "retryWrites=true&w=majority";
-// const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;// connect to the database
 const connectionString = "mongodb+srv://parth2118:"+process.env.DB_PASSWORD+"@cluster0.e4v81.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";// connect to the database
 mongoose.connect(connectionString);
 
