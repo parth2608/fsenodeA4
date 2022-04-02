@@ -1,5 +1,8 @@
 export default interface Stats {
     replies?: number,
     retuits: number,
-    likes: number
+    likes: number,
+    dislikes: number
+    likedByMe: boolean,
+    dislikedByMe: boolean
 };
